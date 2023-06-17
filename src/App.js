@@ -1,10 +1,12 @@
+import {BrowserRouter} from 'react-router-dom';
+import AppRoutes from './AppRoutes';
 import './App.global.scss';
 
 function App() {
     return (
-        <div className="App">
-            <p>안녕하세요.</p>
-        </div>
+        <BrowserRouter>
+            <AppRoutes />
+        </BrowserRouter>
     );
 }
 
