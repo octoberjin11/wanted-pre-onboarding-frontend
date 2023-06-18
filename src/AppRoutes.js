@@ -6,7 +6,10 @@ import Todo from './components/Todo';
 import {PrivateRoute} from './components/PrivateRoute';
 
 function AppRoutes() {
+    // 로그인 여부 확인
     const user = localStorage.getItem('user');
+
+    // path
     const pathList = [
         {
             path: '/signin',
