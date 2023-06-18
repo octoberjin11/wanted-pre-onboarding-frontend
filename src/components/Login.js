@@ -48,7 +48,7 @@ function Login() {
                 // 로그인 성공
                 if (res.access_token) {
                     const accessToken = res.access_token;
-                    localStorage.setItem('auth', accessToken);
+                    localStorage.setItem('user', accessToken);
                     navigate('/todo');
                 }
 
