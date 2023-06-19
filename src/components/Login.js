@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 function Login() {
@@ -12,55 +12,58 @@ function Login() {
     const navigate = useNavigate();
 
     // 이메일 조건 검사: '@' 포함
-    const validEmail = () => {
+    const validEmail = useCallback(() => {
         const isValid = email.includes('@');
         setIsValidEmail(isValid);
-    };
+    }, [email]);
     // 비밀번호 8자 이상
-    const validPassword = (e) => {
+    const validPassword = useCallback(() => {
         const isValid = password.length >= 8;
         setIsValidPassword(isValid);
-    };
+    }, [password]);
 
     // 로그인
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
+    const onSubmitHandler = useCallback(
+        (e) => {
+            e.preventDefault();
 
-        const payload = {
-            email: email,
-            password: password
-        };
+            const payload = {
+                email: email,
+                password: password
+            };
 
-        fetch('https://www.pre-onboarding-selection-task.shop/auth/signin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-            .then((res) => {
-                //console.log(res);
-                return res.json();
+            fetch('https://www.pre-onboarding-selection-task.shop/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
             })
-            .then((res) => {
-                //console.log(res);
+                .then((res) => {
+                    //console.log(res);
+                    return res.json();
+                })
+                .then((res) => {
+                    //console.log(res);
 
-                // 로그인 성공
-                if (res.access_token) {
-                    const accessToken = res.access_token;
-                    localStorage.setItem('user', accessToken);
-                    navigate('/todo');
-                }
+                    // 로그인 성공
+                    if (res.access_token) {
+                        const accessToken = res.access_token;
+                        localStorage.setItem('user', accessToken);
+                        navigate('/todo');
+                    }
 
-                // 로그인 실패
-                if (res.statusCode === 401) {
-                    setLoginError(true);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+                    // 로그인 실패
+                    if (res.statusCode === 401) {
+                        setLoginError(true);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        [email, password]
+    );
 
     // 이메일, 비밀번호 유효성 검사
     useEffect(() => {
