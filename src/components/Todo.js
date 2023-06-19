@@ -30,6 +30,43 @@ function Todo() {
             });
     }, [todos]);
 
+    //TODO 리스트 수정
+    const postUpdateTodo = useCallback((id, todo, isCompleted) => {
+        const payload = {
+            todo: todo,
+            isCompleted: isCompleted
+        };
+
+        fetch(`https://www.pre-onboarding-selection-task.shop/todos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: bearerToken
+            },
+            body: JSON.stringify(payload)
+        })
+            .then((res) => {
+                //console.log(res);
+
+                // 투두 수정 성공
+                if (res.status === 200) {
+                    getTodoList();
+                }
+
+                return res.json();
+            })
+            .then((res) => {
+                //console.log(res);
+
+                if (res.statusCode) {
+                    alert(res.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
     useEffect(() => {
         getTodoList();
     }, []);
@@ -43,7 +80,7 @@ function Todo() {
                 <InsertTodo bearerToken={bearerToken} setTodos={setTodos} />
 
                 {/* TODO 리스트 */}
-                <TodoList todos={todos} />
+                <TodoList todos={todos} postUpdateTodo={postUpdateTodo} />
             </div>
         </div>
     );

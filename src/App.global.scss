@@ -166,9 +166,15 @@ h1 {
                 label {
                     display: flex;
                     align-items: center;
+                    width: 100%;
                 
-                    input {
+                    input[type='checkbox'] {
                         margin-right: 5px;
+                    }
+
+                    .modifyInput {
+                        width: 100%;
+                        background: #f0f1f4;
                     }
 
                     .txt {
