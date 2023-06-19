@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react';
 
-function InsertTodo({bearerToken}) {
+function InsertTodo({bearerToken, setTodos}) {
     const [insertValue, setInsertValue] = useState('');
     const inputRef = useRef(null);
 
@@ -32,6 +32,9 @@ function InsertTodo({bearerToken}) {
                 })
                 .then((res) => {
                     //console.log(res);
+
+                    //통신에 성공하면
+                    setTodos((prev) => [...prev, res]);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -46,19 +49,17 @@ function InsertTodo({bearerToken}) {
     }, []);
 
     return (
-        <div className="todoWrap">
-            <div className="todoInsertBox">
-                <form onSubmit={onSubmitTodo}>
-                    <input
-                        data-testid="new-todo-input"
-                        onChange={insertTodo}
-                        value={insertValue}
-                        placeholder="일정을 입력해주세요."
-                        ref={inputRef}
-                    />
-                    <button data-testid="new-todo-add-button">추가</button>
-                </form>
-            </div>
+        <div className="todoInsertBox">
+            <form onSubmit={onSubmitTodo}>
+                <input
+                    data-testid="new-todo-input"
+                    onChange={insertTodo}
+                    value={insertValue}
+                    placeholder="일정을 입력해주세요."
+                    ref={inputRef}
+                />
+                <button data-testid="new-todo-add-button">추가</button>
+            </form>
         </div>
     );
 }
