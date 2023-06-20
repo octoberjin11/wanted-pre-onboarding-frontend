@@ -7,9 +7,15 @@ function TodoListItem({todo, postUpdateTodo}) {
 
     const id = todo.id;
 
-    const checkboxStatus = (e) => {
-        setCompleted(e.target.checked);
-    };
+    //체크박스 상태
+    const checkboxStatus = useCallback(
+        (e) => {
+            const isChecked = e.target.checked;
+            setCompleted(isChecked);
+            if (isModify === false) postUpdateTodo(id, value, isChecked);
+        },
+        [completed, isModify]
+    );
 
     //수정 버튼
     const modifyTodo = useCallback(() => {
@@ -21,7 +27,7 @@ function TodoListItem({todo, postUpdateTodo}) {
         if (value === '') {
             alert('수정할 내용을 입력하세요');
         } else {
-            postUpdateTodo(id, value, completed);
+            if (value !== todo.todo || completed !== todo.isCompleted) postUpdateTodo(id, value, completed);
             setIsModify(false);
         }
     }, [value, completed]);
@@ -31,10 +37,10 @@ function TodoListItem({todo, postUpdateTodo}) {
         setValue(todo.todo);
         setCompleted(todo.isCompleted);
         setIsModify(false);
-    }, [todo.todo]);
+    }, [todo.todo, todo.isCompleted]);
 
     return (
-        <li className="todoList">
+        <li className={`todoList ${completed ? 'done' : ''}`}>
             <label>
                 <input type="checkbox" id={id} checked={completed} onChange={checkboxStatus} />
                 {isModify ? (
