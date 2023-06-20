@@ -27,11 +27,11 @@ function TodoListItem({todo, postUpdateTodo}) {
     }, [value, completed]);
 
     //취소 버튼
-    const cancleTodo = useCallback(() => {
+    const cancelTodo = useCallback(() => {
         setValue(todo.todo);
         setCompleted(todo.isCompleted);
         setIsModify(false);
-    }, []);
+    }, [todo.todo]);
 
     return (
         <li className="todoList">
@@ -56,7 +56,7 @@ function TodoListItem({todo, postUpdateTodo}) {
                         <button data-testid="submit-button" onClick={updateTodo}>
                             제출
                         </button>
-                        <button data-testid="cancel-button" onClick={cancleTodo}>
+                        <button data-testid="cancel-button" onClick={cancelTodo}>
                             취소
                         </button>
                     </>
