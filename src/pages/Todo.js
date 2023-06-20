@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import InsertTodo from './InsertTodo';
-import TodoList from './TodoList';
+import InsertTodo from '../components/Todo/InsertTodo';
+import TodoList from '../components/Todo/TodoList';
 
 function Todo() {
     //TODO List

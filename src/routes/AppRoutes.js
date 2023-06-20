@@ -1,9 +1,9 @@
 import React from 'react';
 import {Route, Routes, Navigate} from 'react-router-dom';
-import Login from './components/Login';
-import Join from './components/Join';
-import Todo from './components/Todo';
-import {PrivateRoute} from './components/PrivateRoute';
+import Login from '../pages/Login';
+import Join from '../pages/Join';
+import Todo from '../pages/Todo';
+import {PrivateRoute} from './PrivateRoute';
 
 function AppRoutes() {
     // 로그인 여부 확인
