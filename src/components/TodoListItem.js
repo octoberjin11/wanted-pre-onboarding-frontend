@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 
-function TodoListItem({todo, postUpdateTodo}) {
+function TodoListItem({todo, updateTodoList, deleteTodoList}) {
     const [value, setValue] = useState(todo.todo);
     const [completed, setCompleted] = useState(todo.isCompleted);
     const [isModify, setIsModify] = useState(false); //수정 버튼 클릭 여부
@@ -12,7 +12,7 @@ function TodoListItem({todo, postUpdateTodo}) {
         (e) => {
             const isChecked = e.target.checked;
             setCompleted(isChecked);
-            if (isModify === false) postUpdateTodo(id, value, isChecked);
+            if (isModify === false) updateTodoList(id, value, isChecked);
         },
         [completed, isModify]
     );
@@ -27,7 +27,7 @@ function TodoListItem({todo, postUpdateTodo}) {
         if (value === '') {
             alert('수정할 내용을 입력하세요');
         } else {
-            if (value !== todo.todo || completed !== todo.isCompleted) postUpdateTodo(id, value, completed);
+            if (value !== todo.todo || completed !== todo.isCompleted) updateTodoList(id, value, completed);
             setIsModify(false);
         }
     }, [value, completed]);
@@ -38,6 +38,11 @@ function TodoListItem({todo, postUpdateTodo}) {
         setCompleted(todo.isCompleted);
         setIsModify(false);
     }, [todo.todo, todo.isCompleted]);
+
+    //삭제 버튼
+    const deleteTodo = useCallback(() => {
+        deleteTodoList(id);
+    }, []);
 
     return (
         <li className={`todoList ${completed ? 'done' : ''}`}>
@@ -71,7 +76,9 @@ function TodoListItem({todo, postUpdateTodo}) {
                         <button data-testid="modify-button" onClick={modifyTodo}>
                             수정
                         </button>
-                        <button data-testid="delete-button">삭제</button>
+                        <button data-testid="delete-button" onClick={deleteTodo}>
+                            삭제
+                        </button>
                     </>
                 )}
             </div>

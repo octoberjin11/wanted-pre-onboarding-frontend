@@ -31,7 +31,7 @@ function Todo() {
     }, [todos]);
 
     //TODO 리스트 수정
-    const postUpdateTodo = useCallback((id, todo, isCompleted) => {
+    const updateTodoList = useCallback((id, todo, isCompleted) => {
         const payload = {
             todo: todo,
             isCompleted: isCompleted
@@ -67,6 +67,37 @@ function Todo() {
             });
     }, []);
 
+    //TODO 리스트 삭제
+    const deleteTodoList = useCallback((id) => {
+        fetch(`https://www.pre-onboarding-selection-task.shop/todos/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: bearerToken
+            }
+        })
+            .then((res) => {
+                //console.log(res);
+
+                // 투두 삭제 성공
+                if (res.status === 204) {
+                    getTodoList();
+                }
+
+                return res.json();
+            })
+            .then((res) => {
+                //console.log(res);
+
+                if (res.statusCode) {
+                    alert(res.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
     useEffect(() => {
         getTodoList();
     }, []);
@@ -80,7 +111,7 @@ function Todo() {
                 <InsertTodo bearerToken={bearerToken} setTodos={setTodos} />
 
                 {/* TODO 리스트 */}
-                <TodoList todos={todos} postUpdateTodo={postUpdateTodo} />
+                <TodoList todos={todos} updateTodoList={updateTodoList} deleteTodoList={deleteTodoList} />
             </div>
         </div>
     );
