@@ -24,4 +24,4 @@ $ npm start
 
 ## 데모 영상
 
-<img src="https://github.com/octoberjin11/wanted-pre-onboarding-frontend/assets/49128865/ff6bbb13-0756-40fb-936b-2d95db5e2f00">
+<img src="https://github.com/octoberjin11/wanted-pre-onboarding-frontend/assets/49128865/ff6bbb13-0756-40fb-936b-2d95db5e2f00" alt="데모 영상">
